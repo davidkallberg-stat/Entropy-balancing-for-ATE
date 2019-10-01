@@ -36,5 +36,6 @@ v.kl <- var(m1 - m0) +
           sigma(lm1)^2*sum(ebKL$w1^2)/N + sigma(lm0)^2*sum(ebKL$w0^2)/N
 ```
 Then we can obtain a confidence interval för ATE:
+```R
 ci <- ATE.kl + c(-1.96*sqrt(v.kl)/sqrt(N),1.96*sqrt(v.kl)/sqrt(N))
 
