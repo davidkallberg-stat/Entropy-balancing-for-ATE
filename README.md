@@ -1,9 +1,9 @@
 # Entropy-balancing-for-ATE
 R code that implements the method in "Entropy Balancing for Average Causal Effects"
 
+We generate data:
 
-Example usage:
-
+```R
 N <- 1000
 X1 <- rnorm(N)
 X2 <- rnorm(N)
@@ -12,9 +12,14 @@ ps <- 1/(1+ exp(1.5*X1-X2))
 tr <- rbinom(n = N,1,prob = ps)
 Y1 <- 2*X1 - X2 + rnorm(N,0,sd = 1)
 Y0 <- X1 - .5*X2 + rnorm(N,0,sd = 1)
+```
 
+To estimate the entropy balancing weights, using either the KL-or QR divergence:
+```R
 ebKL <- ebalanceATE(Ux, tr, div="KL") # med KL-divergence
 ebQR <- ebalanceATE(Ux, tr, div="QR") # med QR-divergence
+```
+
 
 # ATE-estimates
 ATE.kl <- weighted.mean(Y1[tr==1], w=ebKL$w1) - weighted.mean(Y0[tr==0], w=ebKL$w0)
