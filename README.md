@@ -35,7 +35,6 @@ m0 <- predict(lm0,df)
 v.kl <- var(m1 - m0) + 
           sigma(lm1)^2*sum(ebKL$w1^2)/N + sigma(lm0)^2*sum(ebKL$w0^2)/N
 ```
-
-# obtain a confidence interval för ATE
+Then we can obtain a confidence interval för ATE:
 ci <- ATE.kl + c(-1.96*sqrt(v.kl)/sqrt(N),1.96*sqrt(v.kl)/sqrt(N))
-ci
+
