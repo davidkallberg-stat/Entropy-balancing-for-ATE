@@ -18,22 +18,22 @@ To estimate the entropy balancing weights, using either the KL-or QR divergence:
 ebKL <- ebalanceATE(Ux, tr, div="KL") # med KL-divergence
 ebQR <- ebalanceATE(Ux, tr, div="QR") # med QR-divergence
 ```
-The estimates for the average treatment effect are obt
+The estimates for the average treatment effect are obtained as
 ```R
 # ATE-estimates
 ATE.kl <- weighted.mean(Y1[tr==1], w=ebKL$w1) - weighted.mean(Y0[tr==0], w=ebKL$w0)
 ATE.qr <- weighted.mean(Y1[tr==1], w=ebQR$w1) - weighted.mean(Y0[tr==0], w=ebQR$w0)
 ```
+To estimate the asymptotic variance from Equation ... in the paper
 ```R
 # variance estimation
 lm1 <- lm(Y1[tr==1] ~ X1 + X2, data = Ux[tr==1,]) 
 lm0 <- lm(Y0[tr==0] ~ X1 + X2, data = Ux[tr==0,])
-```
 
-```R
 m1 <- predict(lm1,df)
 m0 <- predict(lm0,df)
-v.kl <- var(m1 - m0) + sigma(lm1)^2*sum(ebKL$w1^2)/N + sigma(lm0)^2*sum(ebKL$w0^2)/N # Eq. ... in the paper
+v.kl <- var(m1 - m0) + 
+          sigma(lm1)^2*sum(ebKL$w1^2)/N + sigma(lm0)^2*sum(ebKL$w0^2)/N
 ```
 
 # obtain a confidence interval för ATE
