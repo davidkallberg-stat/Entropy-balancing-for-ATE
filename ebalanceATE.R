@@ -6,6 +6,9 @@ ebalanceATE <- function(Ux,tr, div="KL"){
   Ux <- cbind(1,as.matrix(Ux))
   Ux1 <- Ux[tr==1,] # balancing functions for treated
   Ux0 <- Ux[tr==0,] # balancing functions for control
+  N <- length(tr)
+  N1 <- sum(tr)
+  N0 <- N - N1
   
   if(rank(Ux1) < ncol(Ux1) || rank(Ux0) < ncol(Ux0)) { 
     return('error: .... needs to have full rank...') 
@@ -13,14 +16,14 @@ ebalanceATE <- function(Ux,tr, div="KL"){
   
   if(div=="KL"){
     
-    m <- colMeans(Ux[,-1]) # sum of combined sample
+    m <- colSums(Ux[,-1]) # sum of combined sample
     U1 <- U0 <- Ux[,-1]
   
-    U1[tr==0,] <- matrix(m, sum(1-tr), K, byrow=T)	
-    U0[tr==1,] <- matrix(m, sum(tr), K, byrow=T)	
+    U1[tr==0,] <- matrix(m, N0, K, byrow=T)/N0	
+    U0[tr==1,] <- matrix(m, N1, K, byrow=T)/N1	
   
-    w1 <- ebalance(1-tr, U1, constraint.tolerance = 0.1)
-    w0 <- ebalance(tr, U0, constraint.tolerance = 0.1)
+    w1 <- ebalance(1-tr, U1, constraint.tolerance = 0.1, norm.constant = N)
+    w0 <- ebalance(tr, U0, constraint.tolerance = 0.1, norm.constant = N)
   
     return(list(w1 = w1$w, w0 = w0$w))
   
