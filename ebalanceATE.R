@@ -1,5 +1,7 @@
 # Entropy balancing for estimation of ATE
-require(ebal)
+install.packages('ebal')
+library('ebal')
+
 ebalanceATE <- function(Ux,tr, div="KL"){
 
   K <- ncol(Ux)
