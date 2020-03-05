@@ -1,5 +1,5 @@
 # Entropy-balancing-for-ATE
-R code that implements the method in "Entropy Balancing for Average Causal Effects".
+R code that implements the method in "Large Sample Properties of Entropy Balancing Estimators of Average Causal Effects".
 The following code requires that you load the script ebalanceATE.R.
 We generate example data:
 
