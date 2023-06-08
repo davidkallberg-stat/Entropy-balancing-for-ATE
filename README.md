@@ -39,7 +39,7 @@ for(des in c("a", "b", "c")){
     k <- k + 1 
 
 # Estimates of the average treatment effect (beta)
-    labs1 <- c("kl1", "qr1", "kl2", "qr2", "IPW1", "IPW2", "IPW3")
+    labs1 <- c("kl1", "qr1", "kl2", "qr2", "IPW1", "IPW2", "IPW3", "AIPW")
     betahat <- data.frame(matrix(ncol = length(labs1), nrow = Nsim, dimnames = list(NULL, labs1)))
 
 # Variance estimators (parametric, nonparametric, bootstrap)
@@ -76,7 +76,6 @@ for(i in 1:Nsim){
   form.or <- paste("Y", paste(xl, collapse=" + "), sep=" ~ ")
   
   aipw_fit <- psw.aug(data, form.tr, "ATE", form.or)  
-  aipw <- aipw_fit$est_aug  
 
   # KL estimator
   kl1 <- ebalKL(data)
@@ -94,6 +93,8 @@ for(i in 1:Nsim){
   betahat$IPW1[i] <- ipw1
   betahat$IPW2[i] <- ipw2
   betahat$IPW3[i] <- ipw3
+    
+  betahat$AIPW[i] <- aipw_fit$est_aug   
 
   # Variance estimators
   # Parametric (proposed in the paper)
