@@ -70,6 +70,13 @@ for(i in 1:Nsim){
   ipw1 <- weighted.mean(Y,w = tr/e1$fitted.values) - weighted.mean(Y,w = (1-tr)/(1-e1$fitted.values))
   ipw2 <- weighted.mean(Y,w = tr/e2$fitted.values) - weighted.mean(Y,w = (1-tr)/(1-e2$fitted.values))
   ipw3 <- weighted.mean(Y,w = tr/e3$fitted.values) - weighted.mean(Y,w = (1-tr)/(1-e3$fitted.values))
+    
+  # Augmented IPW estimator, logit link, and linear outcome regression
+  form.tr <- paste("tr", paste(xl, collapse=" + "), sep=" ~ ")
+  form.or <- paste("Y", paste(xl, collapse=" + "), sep=" ~ ")
+  
+  aipw_fit <- psw.aug(data, form.tr, "ATE", form.or)  
+  aipw <- aipw_fit$est_aug  
 
   # KL estimator
   kl1 <- ebalKL(data)
